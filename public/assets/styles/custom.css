@@ -1,0 +1,294 @@
+body {
+    background-color: #fff;
+    font-family: 'Mulish', sans-serif;
+    color: #666666;
+}
+
+a, a:hover{
+    text-decoration: none !important;
+}
+
+nav ul li a{
+    color: #333333;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+
+button a, button a:hover, button a:focus{
+    color: #ffffff;
+    text-decoration: none;
+  }
+
+.btn-register a, .btn-register a:hover, .btn-register a:focus{
+    color: #333333;
+    font-size: 16px;
+}
+/*Navbar*/
+
+.btn-register {
+background: transparent;
+width: 148px;
+height: 48px;
+/* -webkit-transition: 0.4s ease;
+transition: 0.4s ease; */
+}
+
+.btn-image img{
+    width: 20px !important;
+    float: right;
+    margin-top: -2.75em !important;
+}
+
+.btn-login {
+    background-color: #FF9737;
+    color: #fff;
+    width: 148px;
+    height: 48px;
+}
+
+.btn-login:hover {
+    background-color: #FF9737;
+    color: #ffffff;
+}
+
+.btn-register:hover {
+    color: #333333;
+    border: 1px solid #ff973f;
+}
+
+.main-title{
+    margin-top: 4em !important;
+}
+
+.main-title h2{
+    color: #333333;
+    font-size: 34px;
+    font-weight: 700;
+}
+
+.main-nav{
+    margin-left: -1.5em !important;
+}
+
+.button-nav{
+    margin-top: 0.5em !important;
+}
+
+.button-nav button{
+    height: 45px;
+    border-radius: 30px;
+    color: #555555;
+    border: 1px solid #dedede;
+    font-weight: 400;
+    font-size: 13px;
+    margin: 0 0.25em;
+}
+
+.button-nav button:hover{
+    background-color: #FF9737;
+    color: #ffffff;
+    border-style: none;
+}
+
+
+.section-stats {
+    margin-top: -14em;
+    background-color: #fff;
+    margin-left: 15em !important;
+    margin-right: 2em !important;
+    border-radius: 8px !important;
+    height: 100px;
+}
+    
+.section-popular-heading p {
+    font-size: 18px;
+    color: #333333;
+}
+
+
+.section-popular-content .section-popular-travel .card-travel {
+    color: #fff;
+    padding: 30px;
+    background-size: cover;
+    margin-bottom: 20px;
+    border-radius: 8px !important;
+}
+
+.travel-content h3{
+    font-size: 30px;
+}
+    
+.travel-content p{
+    font-size: 18px;
+}
+
+.travel-content span{
+    color: #777777;
+}
+
+.travel-content img{
+    width: 24px !important;
+    height: 24px !important;
+}
+    
+.travel-text, .travel-content{
+    margin-top: 18em !important;
+}
+    
+.travel-text p{
+    color: #dddddd;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+li.page-item {
+    padding: .5em !important;
+    border-radius: 20px !important;
+}
+
+li.page-item a{
+    width: 56px !important;
+    height: 56px !important;
+    color: #333333;
+    padding-top: 1em !important;
+}
+
+.page-item.active .page-link {
+    z-index: 1;
+    color: #fff;
+    background-color: #FF9737;
+    border-color: #FF9737;
+  }
+
+.page-link:focus, .page-link:hover {
+    color: #fff;
+    text-decoration: none;
+    background-color: #FF9737;
+    border-color: #FF9737;
+}
+
+span.page-link{
+    margin-top: -.5em !important;
+}
+
+/*Not foud*/
+.notfound p{
+    color: #666666;
+    font-weight: 700;
+    font-size: 40px;
+}
+
+/* footer */
+.section-footer {
+margin-top: -3em !important;
+margin-left: -7em !important;
+color: #333333;
+}
+
+.section-footer .row-list {
+    margin-top: 120px !important;
+}
+
+.section-footer h5 {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+.section-footer ul li.jalan{
+    color: #777777;
+}
+
+.section-footer li {
+    margin-bottom: 10px;
+}
+
+.section-footer a {
+    color: #333333;
+    font-weight: normal;
+    font-size: 14px;
+}
+
+.section-footer .copyright {
+    font-size: 16px;
+    font-weight: normal;
+}
+
+@media only screen and (max-width: 768px){ 
+    .navbar-collapse {
+        margin-top: 1em !important;
+    }
+
+    button.navbar-toggler{
+        margin-top: 1em !important;
+        border-style: none !important;
+    }
+
+    .navbar-light .navbar-toggler-icon {   
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0,0,0, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+        float: right;
+        margin-top: -1em !important;
+        margin-right: 0.25em !important;
+    }
+
+    .btn-register {
+        margin-left: 0 !important;
+        margin-right: 1em !important;
+        color: #333333
+    }
+    
+    .btn-register:hover {
+        color: #333333;
+        border: 1px solid #ff973f;
+    }
+
+    .button-search {
+        margin-left: -0.5em !important;
+    }
+    
+    .main-title h2{
+        font-size: 20px;
+        margin-top: -1em !important;
+    }
+
+    .form-control{
+        width: 60vh !important;
+    }
+
+    
+    .btn-image img{
+        margin-top: 5px;
+        margin-right: 10% !important;
+        width: 15px !important;
+    }
+
+    .button-nav{
+        margin-top: -1em !important;
+    }
+
+    .hidden{
+        display: none !important;
+    }
+
+    .section-popular-content .section-popular-travel .card-travel {
+        margin-left: 0 !important;
+        margin-bottom: 1em !important;
+      }
+
+    .section-footer .row-list{
+        margin-top: 2em !important;
+        margin-left: 7em !important;
+    }
+
+    li.page-item {
+        padding: 1.25em !important;
+    }
+
+    ul.sosmed{
+        margin-bottom: 3em !important;
+    }
+    
+      section.copyright{
+        margin-left: 8em !important;
+    }
+}
