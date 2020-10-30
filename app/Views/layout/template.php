@@ -51,24 +51,36 @@
                     <!--Mobile Button-->
 
                     <form class="form-inline d-sm-block d-md-none">
-                        <button class="btn btn-register my-2 my-sm-0 px-4">
-                            <a href="/pages/register">Register</a>
-                        </button>
-                        <button class="btn btn-login my-2 my-sm-0 px-4">
-                            <a href="/pages/login">Login</a>
-                        </button>
+                        <?php if (logged_in()) : ?>
+                            <button class="btn btn-login my-2 my-sm-0 px-4">
+                                <a href="/logout">Logout</a>
+                            </button>
+                        <?php else : ?>
+                            <button class="btn btn-register my-2 my-sm-0 px-4">
+                                <a href="/register">Register</a>
+                            </button>
+                            <button class="btn btn-login my-2 my-sm-0 px-4">
+                                <a href="/login">Login</a>
+                            </button>
+                        <?php endif ?>
                     </form>
                 </div>
 
                 <!--Dekstop Button-->
 
                 <form class="form-inline my-2 my-lg-0 d-none d-md-block">
-                    <button class="btn btn-register my-2 my-sm-0 px-4 mr-3">
-                        <a href="/pages/register"> Register</a>
-                    </button>
-                    <button class="btn btn-login btn-navbar-right my-2 my-sm-0 px-4">
-                        <a href="/pages/login">Login</a>
-                    </button>
+                    <?php if (logged_in()) : ?>
+                        <button class="btn btn-login my-2 my-sm-0 px-4 mr-3">
+                            <a href="/logout">Logout</a>
+                        </button>
+                    <?php else : ?>
+                        <button class="btn btn-register my-2 my-sm-0 px-4 mr-3">
+                            <a href="/register">Register</a>
+                        </button>
+                        <button class="btn btn-login btn-navbar-right my-2 my-sm-0 px-4">
+                            <a href="/login">Login</a>
+                        </button>
+                    <?php endif ?>
                 </form>
 
             </nav>

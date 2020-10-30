@@ -59,24 +59,8 @@
                     </div>
                 </div>
             </section>
-            
-            <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-4">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link text-center" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item"><a class="page-link text-center " href="#">1</a></li>
-                    <li class="page-item"><a class="page-link text-center" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link text-center" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link text-center" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+
+            <?= $pager->links('wisata', 'lokasi_pagination') ?>
 
     </main>
 <?php } else { ?>

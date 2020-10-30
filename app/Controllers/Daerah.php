@@ -19,14 +19,18 @@ class Daerah extends BaseController
     public function index()
     {
         // $daerah = $this->daerahModel->findAll();
-        $daerah = $this->daerahModel->paginate(1);
-        $pager = $this->daerahModel->pager;
+        $keyword = $this->request->getVar('keyword');
+        if($keyword) {
+            $daerah = $this->daerahModel->search($keyword);
+        } else {
+            $daerah = $this->daerahModel;
+        }
 
         $data = [
             'title' => 'Location',
             'navActive' => 'location',
-            'daerah' => $daerah,
-            'pager' => $pager,
+            'daerah' => $daerah->paginate(6, 'daerah'),
+            'pager' => $this->daerahModel->pager,
         ];
 
         return view('daerah/index', $data);
@@ -34,15 +38,14 @@ class Daerah extends BaseController
 
     public function wisata($id)
     {
-        // $wisata = $wisataModel->findAll();
-        $wisata = $this->wisataModel->where(['kode_provinsi' => $id])->findAll();
-        $daerah = $this->daerahModel->where(['id' => $id])->findAll();
+        // $wisata = $this->wisataModel->where(['kode_provinsi' => $id])->findAll();
 
         $data = [
             'title' => 'Location',
             'navActive' => 'location',
-            'daerah' => $daerah,
-            'wisata' => $wisata,
+            'daerah' => $this->daerahModel->where(['id' => $id])->findAll(),
+            'wisata' => $this->wisataModel->where(['kode_provinsi' => $id])->paginate(6, 'wisata'),
+            'pager' => $this->wisataModel->pager,
         ];
 
         return view('wisata/index', $data);

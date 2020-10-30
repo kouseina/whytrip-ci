@@ -18,14 +18,24 @@
                         <button class="btn my-2 my-sm-0" type="submit">Jumlah Tempat Wisata Terbanyak</button>
                     </div>
 
-                    <div class="button-search col-md-6 ml-4">
+                    <!-- <div class="button-search col-md-6 ml-4">
                         <div class="form-group mt-4">
                             <input class="form-control" id="exampleFormControlInput1" placeholder="Cari Destinasi Wisata">
                         </div>
                         <div class="btn-image mr-2">
                             <img src="/assets/img/search-solid.svg" alt="">
                         </div>
-                    </div>
+                    </div> -->
+
+                    <form action="" class="col-md-6 ml-auto" method="POST">
+                        <div class="input-group p-0" style="border: 1px solid #ced4da; border-radius: 5px;">
+                            <input type="text" style="border: none;" class="form-control" placeholder="Cari Destinasi Wisata" name="keyword">
+                            <div class="input-group-append">
+                                <button class="btn" type="submit" name="submit"><img width="20px" src="/assets/img/search-solid.svg" alt=""></button>
+                            </div>
+                        </div>
+                    </form>
+
                 </nav>
             </div>
         </div>
@@ -37,6 +47,7 @@
             <div class="section-popular-travel row justify-content-center mt-4">
 
                 <?php foreach ($daerah as $data) : ?>
+
                     <?php $dataGambar =  'data:image/jpeg;base64,' . base64_encode($data['gambar']) . ''; ?>
 
                     <a href="/daerah/<?= $data['id']; ?>" class="col-sm-6 col-md-4 col-lg-4">
@@ -50,29 +61,12 @@
 
                 <?php endforeach; ?>
 
-                <?= $pager->links() ?>
             </div>
         </div>
     </section>
 
+    <?= $pager->links('daerah', 'lokasi_pagination') ?>
 
-    <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-4">
-        <ul class="pagination">
-            <li class="page-item">
-                <a class="page-link text-center" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li class="page-item"><a class="page-link text-center " href="#">1</a></li>
-            <li class="page-item"><a class="page-link text-center" href="#">2</a></li>
-            <li class="page-item"><a class="page-link text-center" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link text-center" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
 </main>
 
 <?= $this->endSection('content'); ?>
