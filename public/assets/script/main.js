@@ -16,8 +16,28 @@ function myFunction(){
     }
 }
 
+$('.header-slider').owlCarousel({
+    center: true,
+    stagePadding: 50,
+    loop: false,
+    margin:10,
+    nav:true,
+    responsive:{
+        0:{
+            items:1
+        },
+        600:{
+            items:1
+        },
+        1000:{
+            items:1
+        }
+    }
+})
+
 const nextIcon = '<img src="assets/img/right-arrow.svg" alt="right" class="img-arrow">';
 const prevIcon = '<img src="assets/img/left-arrow.svg" alt="left" class="img-arrow">';
+
 
 $('.owl-carousel').owlCarousel({
     loop: false,

@@ -146,7 +146,7 @@
         </div>
         </div>
         <div class="input-group-append col-md-12 my-4 justify-content-center">
-            <a href="/pages/popular">
+            <a href="/Daerah/popular">
                 <button class="btn btn-detail" type="button">Lihat Semua</button>
             </a>
         </div>

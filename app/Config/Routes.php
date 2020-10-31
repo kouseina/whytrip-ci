@@ -35,6 +35,8 @@ $routes->get('/', 'Pages::index');
 
 $routes->get('/daerah/(:segment)', 'Daerah::wisata/$1');
 
+$routes->get('/detailWisata/(:segment)', 'DetailWisata::index/$1');
+
 /**
  * --------------------------------------------------------------------
  * Additional Routing

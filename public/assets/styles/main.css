@@ -23,6 +23,10 @@ button a, button a:hover, button a:focus{
   text-decoration: none;
 }
 
+a:hover, a:focus{
+  text-decoration: none !important;
+}
+
 h2{
   color: #858A8F;
   font-weight: 600;
@@ -227,8 +231,6 @@ color: #333333;
   -webkit-transition: 0.4s ease;
   transition: 0.4s ease;
 }
-
-/* margin : top left bottom right */
 
 .btn-detail:hover{
   background-color: #ff973f;

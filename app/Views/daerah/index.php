@@ -2,6 +2,8 @@
 
 <?= $this->section('content'); ?>
 
+<hr class="mt-5">
+
 <!--Navbar Kategori-->
 <main>
     <section class="kategori">
@@ -27,9 +29,9 @@
                         </div>
                     </div> -->
 
-                    <form action="" class="col-md-6 ml-auto" method="POST">
+                    <form action="" class="col-md-6 ml-auto" method="GET">
                         <div class="input-group p-0" style="border: 1px solid #ced4da; border-radius: 5px;">
-                            <input type="text" style="border: none;" class="form-control" placeholder="Cari Destinasi Wisata" name="keyword">
+                            <input type="text" style="border: none;" class="form-control" placeholder="Cari Nama Daerah" name="keyword">
                             <div class="input-group-append">
                                 <button class="btn" type="submit" name="submit"><img width="20px" src="/assets/img/search-solid.svg" alt=""></button>
                             </div>
@@ -41,29 +43,43 @@
         </div>
     </section>
 
-    <!--List Daerah-->
-    <section class="section-popular-content mt-5" id="popular-content">
-        <div class="container">
-            <div class="section-popular-travel row justify-content-center mt-4">
+    <?php if ($daerah != null) { ?>
 
-                <?php foreach ($daerah as $data) : ?>
+        <!--List Daerah-->
+        <section class="section-popular-content mt-5" id="popular-content">
+            <div class="container">
+                <div class="section-popular-travel row justify-content-center mt-4">
 
-                    <?php $dataGambar =  'data:image/jpeg;base64,' . base64_encode($data['gambar']) . ''; ?>
+                    <?php foreach ($daerah as $data) : ?>
 
-                    <a href="/daerah/<?= $data['id']; ?>" class="col-sm-6 col-md-4 col-lg-4">
-                        <div class="card-travel text-center d-flex flex-column" style="background-image: url(<?= $dataGambar; ?>);">
-                            <div class="travel-text text-center">
-                                <h3><?= $data['nama']; ?></h3>
-                                <p><?= $data['jumlah']; ?> Tempat Wisata</p>
+                        <?php $dataGambar =  'data:image/jpeg;base64,' . base64_encode($data['gambar']) . ''; ?>
+
+                        <a href="/daerah/<?= $data['id']; ?>" class="col-sm-6 col-md-4 col-lg-4">
+                            <div class="card-travel text-center d-flex flex-column" style="background-image: url(<?= $dataGambar; ?>);">
+                                <div class="travel-text text-center">
+                                    <h3><?= $data['nama']; ?></h3>
+                                    <p><?= $data['jumlah']; ?> Tempat Wisata</p>
+                                </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
 
-                <?php endforeach; ?>
+                    <?php endforeach; ?>
 
+                </div>
+            </div>
+        </section>
+
+    <?php } else { ?>
+        <div class="notfound">
+            <div class="ilus-not text-center mt-3">
+                <img src="/assets/img/ilus-notfound.png">
+            </div>
+
+            <div class="not-content text-center mt-1 ml-5">
+                <p>Whoops pencarian tidak ditemukan....</p>
             </div>
         </div>
-    </section>
+    <?php } ?>
 
     <?= $pager->links('daerah', 'lokasi_pagination') ?>
 

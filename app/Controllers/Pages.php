@@ -14,24 +14,6 @@ class Pages extends BaseController
         return view('pages/home', $data);
     }
 
-    public function login()
-    {
-        $data = [
-            'title' => 'Login',
-            'navActive' => 'login',
-        ];
-        return view('pages/login', $data);
-    }
-
-    public function register()
-    {
-        $data = [
-            'title' => 'Register',
-            'navActive' => 'register',
-        ];
-        return view('pages/register', $data);
-    }
-
     public function about()
     {
         $data = [
@@ -39,15 +21,6 @@ class Pages extends BaseController
             'navActive' => 'about',
         ];
         return view('pages/about', $data);
-    }
-
-    public function popular()
-    {
-        $data = [
-            'title' => 'Popular',
-            'navActive' => 'popular',
-        ];
-        return view('pages/popular', $data);
     }
 
     //--------------------------------------------------------------------

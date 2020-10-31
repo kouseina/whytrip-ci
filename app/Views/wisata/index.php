@@ -3,6 +3,8 @@
 
 <?= $this->section('content'); ?>
 
+<hr class="mt-5">
+
 <?php foreach ($daerah as $dataDaerah) : ?>
 
     <main>
@@ -21,14 +23,14 @@
                             <button class="btn my-2 my-sm-0" type="submit">Wisata Kuliner</button>
                         </div>
 
-                        <div class="button-search col-md-6 ml-4">
-                            <div class="form-group mt-4">
-                                <input class="form-control" id="exampleFormControlInput1" placeholder="Cari Destinasi Wisata">
+                        <form action="" class="col-md-6 ml-auto" method="GET">
+                            <div class="input-group p-0" style="border: 1px solid #ced4da; border-radius: 5px;">
+                                <input type="text" style="border: none;" class="form-control" placeholder="Cari Destinasi Wisata" name="keyword">
+                                <div class="input-group-append">
+                                    <button class="btn" type="submit" name="submit"><img width="20px" src="/assets/img/search-solid.svg" alt=""></button>
+                                </div>
                             </div>
-                            <div class="btn-image mr-2">
-                                <img src="/assets/img/search-solid.svg" alt="">
-                            </div>
-                        </div>
+                        </form>
                     </nav>
                 </div>
             </div>
@@ -44,12 +46,12 @@
 
                             <?php $dataGambar =  'data:image/jpeg;base64,' . base64_encode($dataWisata['gambar']) . ''; ?>
 
-                            <a href="#" class="col-sm-6 col-md-4 col-lg-4">
+                            <a href="/detailWisata/<?= $dataWisata['id']; ?>" class="col-sm-6 col-md-4 col-lg-4">
                                 <div class="card-travel d-flex flex-column" style="background-image: url(<?= $dataGambar; ?>);">
                                     <div class="travel-content">
                                         <h3><?= $dataWisata['nama']; ?></h3>
                                         <p><?= $dataDaerah['nama']; ?></p>
-                                        <img src="/assets/img/star.png" alt=""> 4.9 <span>(92 Review)</span>
+                                        <img src="/assets/img/star.png" alt=""> <?= $dataWisata['rating']; ?> <span>(92 Review)</span>
                                     </div>
                                 </div>
                             </a>
@@ -70,7 +72,7 @@
         </div>
 
         <div class="not-content text-center mt-1 ml-5">
-            <p>Whoops, tidak ada wisata di daerah ini</p>
+            <p>Whoops pencarian tidak ditemukan....</p>
         </div>
     </div>
 <?php } ?>
