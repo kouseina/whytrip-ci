@@ -27,11 +27,13 @@ class DetailWisata extends BaseController
 
     public function index($id)
     {
+        // session();
         // $wisata = $this->wisataModel->where(['kode_provinsi' => $id])->findAll();
 
         $login = $this->loginModel->findAll();
         $lastLogin = end($login);
         $komentar = $this->komentarModel->findAll();
+        $user = $this->userModel->findAll();
 
         $data = [
             'title' => 'Location',
@@ -40,7 +42,8 @@ class DetailWisata extends BaseController
             'wisata' => $this->wisataModel->where(['id' => $id])->findAll(),
             'login' => $login,
             'komentar' => $komentar,
-            'userLastLogin' => $this->userModel->where(['id' => $lastLogin->user_id])->findAll(),
+            'user' => $user,
+            'validation' =>\Config\Services::validation()
         ];
 
         return view('detailWisata/index', $data);

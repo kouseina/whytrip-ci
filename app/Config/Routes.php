@@ -37,6 +37,8 @@ $routes->get('/daerah/(:segment)', 'Daerah::wisata/$1');
 
 $routes->get('/detailWisata/(:segment)', 'DetailWisata::index/$1');
 
+$routes->post('/komentar/(:segment)', 'Komentar::index/$1');
+
 /**
  * --------------------------------------------------------------------
  * Additional Routing

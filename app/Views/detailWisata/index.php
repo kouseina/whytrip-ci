@@ -12,7 +12,7 @@
             $idLogin = $loginNow->user_id;
         endforeach;
 
-        $user = $userLastLogin[0];
+        // $user = $userLastLogin[0];
         ?>
 
     <?php endforeach; ?>
@@ -27,6 +27,7 @@
 <main>
     <div class="container">
 
+        <?= $validation->listErrors(); ?>
         <div class="header-button d-flex justify-content-between mb-3">
             <div class="d-flex mt-3">
                 <div><img src="/assets/img/map.png" alt=""> </div>
@@ -34,7 +35,7 @@
             </div>
 
             <div class="d-flex">
-                <div class="mt-2 mr-2">
+                <div class="mt-2 mr-4">
                     <img src="/assets/img/share.png" alt="" class="mr-2">
                     <img src="/assets/img/heart.png" alt="">
                 </div>
@@ -217,13 +218,13 @@
                         <div class="card">
                             <div class="card-header" id="headingOne">
                                 <h2 class="mb-0">
-                                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                         Apakah Ada Rumah Sakit Di <?= $dataWisata['nama']; ?>?
                                     </button>
                                 </h2>
                             </div>
 
-                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                                 <div class="card-body mt-2">
                                     Pulau <?= $dataWisata['nama']; ?> saat ini telah memiliki rumah sakit umum. Nama rumah sakitnya, Rumah Sakit Pratama (PRATAMA NUSA PENIDA HOSPITAL). Lokasi PRATAMA NUSA PENIDA HOSPITAL berada di Jl Pendidikan , Toya Pakeh, Sakti, Nusa Penida. Dirumah sakit Pratama tersedia layanan darurat 24 jam dengan Dokter dan Perawat. PRATAMA NUSA PENIDA HOSPITAL mampu untuk memberikan pengobatan ringan serta operasi bedah ringan. Namun jika ada perlu penanganan serius, maka akan dikirim ke rumah sakit pusat Sanglah, Bali.
                                 </div>
@@ -274,29 +275,43 @@
 
                             <?php foreach ($komentar as $dataKomentar) : ?>
 
-                                <?php $dataGambar =  'data:image/jpeg;base64,' . base64_encode($dataKomentar['gambar']) . ''; ?>
+                                <?php
+                                $dataGambar =  'data:image/jpeg;base64,' . base64_encode($dataKomentar['gambar']) . '';
+                                ?>
 
-                                <div class="comment">
-                                    <div class="reviewer">
-                                        <div class="d-flex">
-                                            <div class="reviewer-images">
-                                                <img src="/assets/img/review.png" alt="">
-                                            </div>
-                                            <div class="ml-3">
-                                                <p class="title">Ronald Richards</p>
-                                                <img src="/assets/img/rating.png" class="review-rating">
+                                <?php if ($dataKomentar['id_wisata'] === $dataWisata['id']) : ?>
+
+                                    <div class="comment">
+                                        <div class="reviewer">
+                                            <div class="d-flex">
+                                                <div class="reviewer-images">
+                                                    <img src="/assets/img/review.png" alt="">
+                                                </div>
+                                                <div class="ml-3">
+                                                    <?php foreach ($user as $dataUser) : ?>
+                                                        <?php if ($dataUser->id === $dataKomentar['id_user']) : ?>
+                                                            <p class="title"><?= $dataUser->username ?></p>
+                                                        <?php endif ?>
+                                                    <?php endforeach; ?>
+                                                    <?php for ($i = 0; $i < $dataKomentar['rating']; $i++) : ?>
+                                                        <img src="/assets/img/rating.png" class="review-rating">
+                                                    <?php endfor; ?>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="reviewer-comment ml-5">
-                                        <p class="date">30 Agustus, 2020</p>
-                                        <p class="review"><?= $dataKomentar['komentar']; ?></p>
-                                        <div class="review-image">
-                                            <img src="/assets/img/review-images.png" alt="">
+                                        <div class="reviewer-comment ml-5">
+                                            <p class="date">30 Agustus, 2020</p>
+                                            <p class="review"><?= $dataKomentar['komentar']; ?></p>
+                                            <?php if ($dataKomentar['gambar'] != null) : ?>
+                                                <div class="review-image">
+                                                    <img width="100px" height="100px" src=<?= $dataGambar; ?> alt="">
+                                                </div>
+                                            <?php endif; ?>
+                                            <hr>
                                         </div>
-                                        <hr>
                                     </div>
-                                </div>
+
+                                <?php endif; ?>
 
                             <?php endforeach; ?>
 
@@ -307,6 +322,11 @@
                             <div class="ml-5 d-flex justify-content-between button-pagination ">
                                 <div class="review-modal">
                                     <!-- Button trigger modal -->
+                                    <?php if (session()->getFlashdata('pesan')) : ?>
+                                        <div class="alert alert-success" role="alert">
+                                            <?= session()->getFlashdata('pesan'); ?>
+                                        </div>
+                                    <?php endif; ?>
                                     <button type="button" class="btn py-3 btn-review mt-3 ml-2" data-toggle="modal" data-target="#modalReview">
                                         Tulis Review Kamu Disini
                                     </button>
@@ -322,32 +342,39 @@
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form>
+                                                    <form class="needs-validation" action="/komentar/<?= $dataWisata['id']; ?>" method="POST" enctype="multipart/form-data" novalidate>
+                                                        <?= csrf_field(); ?>
                                                         <div class="form-group">
                                                             <label for="message-text" class="col-form-label">Komentar</label>
-                                                            <textarea class="form-control" id="message-text"></textarea>
+                                                            <textarea class="form-control" id="message-text" name="komentar" required></textarea>
+                                                            <div class="invalid-feedback">
+                                                                Komentar wajib diisi.
+                                                            </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="message-text" class="col-form-label">Beri Rating</label>
+                                                            <label for="" class="col-form-label">Beri Rating</label>
                                                             <div class="starrating risingstar d-flex justify-content-center flex-row-reverse">
-                                                                <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5 star"></label>
-                                                                <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 star"></label>
-                                                                <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 star"></label>
-                                                                <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 star"></label>
-                                                                <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star"></label>
+                                                                <input type="radio" id="star5" name="rating" value="5" required /><label for="star5" title="5 star"></label>
+                                                                <input type="radio" id="star4" name="rating" value="4" required /><label for="star4" title="4 star"></label>
+                                                                <input type="radio" id="star3" name="rating" value="3" required /><label for="star3" title="3 star"></label>
+                                                                <input type="radio" id="star2" name="rating" value="2" required /><label for="star2" title="2 star"></label>
+                                                                <input type="radio" id="star1" name="rating" value="1" required /><label for="star1" title="1 star"></label>
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Rating wajib diisi.
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="message-text" class="col-form-label">Upload Gambar</label>
-                                                            <input type="file" class="form-control border-0">
+                                                            <input type="file" class="form-control border-0" name="upload-gambar">
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-send">OK</button>
                                                         </div>
                                                     </form>
                                                 </div>
 
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-send">OK</button>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -456,7 +483,7 @@
                 <div class="container">
                     <div class="section-popular-travel row justify-content-center mt-4">
                         <div class="col-sm-6 col-md-4 col-lg-4">
-                            <a href="detail-page.html">
+                            <a href="/detailWisata/<?= $dataWisata['id']; ?>">
                                 <div class="card-travel d-flex flex-column" style="background-image: url('/assets/img/1.png');">
                                     <div class="travel-content">
                                         <h3>Nusa Penida</h3>
@@ -468,13 +495,15 @@
                         </div>
 
                         <div class="col-sm-6 col-md-4 col-lg-4">
-                            <div class="card-travel d-flex flex-column" style="background-image: url('/assets/img/2.png');">
-                                <div class="travel-content">
-                                    <h3>Tanah Lot</h3>
-                                    <p>Tabanan, Bali</p>
-                                    <img src="/assets/img/star.png" alt=""> 4.9 <span>(64 Review)</span>
+                            <a href="/detailWisata/8">
+                                <div class="card-travel d-flex flex-column" style="background-image: url('/assets/img/2.png');">
+                                    <div class="travel-content">
+                                        <h3>Tanah Lot</h3>
+                                        <p>Tabanan, Bali</p>
+                                        <img src="/assets/img/star.png" alt=""> 4.9 <span>(64 Review)</span>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
 
                         <div class="col-sm-6 col-md-4 col-lg-4">

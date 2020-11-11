@@ -70,7 +70,7 @@
 
                 <form class="form-inline my-2 my-lg-0 d-none d-md-block">
                     <?php if (logged_in()) : ?>
-                        <button class="btn btn-login my-2 my-sm-0 px-4 mr-3">
+                        <button class="btn btn-login my-2 my-sm-0 px-4">
                             <a href="/logout">Logout</a>
                         </button>
                     <?php else : ?>
