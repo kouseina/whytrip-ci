@@ -19,6 +19,39 @@
 
 <?php endforeach; ?>
 
+<?php
+
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+    CURLOPT_URL => "https://community-open-weather-map.p.rapidapi.com/forecast/daily?q=" . $dataWisata["kota"] . "%2Cindonesia&lat=35&lon=139&cnt=10&units=metric%20or%20imperial",
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_ENCODING => "",
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 30,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => "GET",
+    CURLOPT_HTTPHEADER => [
+        "x-rapidapi-host: community-open-weather-map.p.rapidapi.com",
+        "x-rapidapi-key: 43f720303amsh111cfaf57c4e25dp1c6a22jsnc0bf64e6dd4e"
+    ],
+]);
+
+$response = curl_exec($curl);
+$err = curl_error($curl);
+$arrWeather = json_decode($response);
+$forecast = $arrWeather->list;
+
+curl_close($curl);
+
+if ($err) {
+    d("cURL Error #:" . $err);
+} else {
+    d($arrWeather);
+}
+
+?>
 
 <?= $this->section('content'); ?>
 
@@ -35,13 +68,13 @@
             </div>
 
             <div class="d-flex">
-                <div class="mt-2 mr-4">
+                <!-- <div class="mt-2 mr-4">
                     <img src="/assets/img/share.png" alt="" class="mr-2">
                     <img src="/assets/img/heart.png" alt="">
-                </div>
-                <button class="btn btn-vr d-flex" type="button" data-toggle="modal" data-target="#launchVR">
-                    <img src="/assets/img/vr-glasses.png" class="mr-2 my-1 ml-3">
-                    <p class="my-1">Play VR</p>
+                </div> -->
+                <button class="btn btn-vr d-flex justify-content-center" type="button" data-toggle="modal" data-target="#launchVR">
+                    <!-- <img src="/assets/img/vr-glasses.png" class="mr-2 my-1 ml-3"> -->
+                    <p class="my-1">360° view</p>
                 </button>
 
                 <!-- Modal -->
@@ -54,7 +87,11 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <iframe class="videoContainer__video embed-responsive-item" width="1920" height="1080" src="https://www.youtube.com/embed/GbOqGYxIW4w" frameborder="0" allowfullscreen></iframe>
+                                <?php if ($dataWisata["streetview"] != null) : ?>
+                                    <iframe src="<?= $dataWisata["streetview"]; ?>" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                                <?php else : ?>
+                                    <h1>Maaf tidak tersedia</h1>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -106,79 +143,52 @@
                         <div>
                             <table class="table table-borderless table-condensed">
                                 <tr>
-                                    <td>Nusa Penida</td>
+                                    <td><?= $dataWisata["nama"]; ?></td>
                                 </tr>
                                 <tr>
-                                    <td>Sabtu 12:00</td>
+                                    <td><?= date("l, H:i", $forecast[0]->dt); ?></td>
                                 </tr>
                                 <tr>
-                                    <td class="font-weight-bold">Berawan</td>
+                                    <td class="font-weight-bold"><?= $forecast[0]->weather[0]->main; ?></td>
                                 </tr>
                             </table>
                         </div>
                         <div>
-                            <img src="/assets/img/weather.png" alt="">
+                            <img src="http://openweathermap.org/img/wn/<?= $forecast[0]->weather[0]->icon; ?>@4x.png" alt="">
                         </div>
                         <div>
                             <table class="table table-borderless table-condensed">
                                 <tr>
-                                    <td>Precipitation</td>
-                                    <td>: <span class="font-weight-bold">4%</td>
+                                    <td>Pressure</td>
+                                    <td>: <span class="font-weight-bold"><?= $forecast[0]->pressure; ?></td>
                                 </tr>
                                 <tr>
                                     <td>Humidity</td>
-                                    <td>: <span class="font-weight-bold">5%</td>
+                                    <td>: <span class="font-weight-bold"><?= $forecast[0]->humidity; ?> %</td>
                                 </tr>
                                 <tr>
-                                    <td>Wind</td>
-                                    <td>: <span class="font-weight-bold">19 km/h</td>
+                                    <td>Speed</td>
+                                    <td>: <span class="font-weight-bold"><?= $forecast[0]->speed; ?></td>
                                 </tr>
                             </table>
                         </div>
                     </div>
 
                     <div class="cloudy d-flex justify-content-between">
-                        <div>
-                            <p>Sab</p>
-                            <img src="/assets/img/cloudy.png" alt="">
-                            <p><span class="font-weight-bold">28°</span> 23°</p>
-                        </div>
 
-                        <div>
-                            <p>Min</p>
-                            <img src="/assets/img/cloudy.png" alt="">
-                            <p><span class="font-weight-bold">28°</span> 23°</p>
-                        </div>
+                        <?php foreach ($forecast as $keyForcast => $dataForcast) : ?>
 
-                        <div>
-                            <p>Sen</p>
-                            <img src="/assets/img/cloudy.png" alt="">
-                            <p><span class="font-weight-bold">28°</span> 23°</p>
-                        </div>
+                            <?php if ($keyForcast < 7 & $keyForcast != 0) : ?>
 
-                        <div>
-                            <p>Sel</p>
-                            <img src="/assets/img/cloudy.png" alt="">
-                            <p><span class="font-weight-bold">28°</span> 23°</p>
-                        </div>
+                                <div>
+                                    <p><?= date("D", $dataForcast->dt); ?></p>
+                                    <img src="http://openweathermap.org/img/wn/<?= $dataForcast->weather[0]->icon; ?>@2x.png" alt="">
+                                    <p><span class="font-weight-bold"><?= round($dataForcast->temp->max - 273.15, 0); ?>°</span> <?= round($dataForcast->temp->min - 273.15, 0); ?>°</p>
+                                </div>
 
-                        <div>
-                            <p>Rab</p>
-                            <img src="/assets/img/cloudy.png" alt="">
-                            <p><span class="font-weight-bold">28°</span> 23°</p>
-                        </div>
+                            <?php endif ?>
 
-                        <div>
-                            <p>Kam</p>
-                            <img src="/assets/img/cloudy.png" alt="">
-                            <p><span class="font-weight-bold">28°</span> 23°</p>
-                        </div>
-
-                        <div>
-                            <p>Jum</p>
-                            <img src="/assets/img/cloudy.png" alt="">
-                            <p><span class="font-weight-bold">28°</span> 23°</p>
-                        </div>
+                        <?php endforeach; ?>
 
                     </div>
                     <hr>
@@ -413,60 +423,60 @@
                     <div class="contact-agen container ml-3">
                         <h4 class="mt-4 mb-4">Kontak Agen</h4>
                         <div class="card-agen ">
-                            <h5 class="mt-4 mb-3">Agen Travel 1</h5>
+                            <h5 class="mb-3">Sukses Selalu</h5>
                             <div class="agen-content">
                                 <div class="row d-flex flex-row">
                                     <div class="ml-3 mr-2"><img src="/assets/img/comment.png"></div>
-                                    <p>08123456789</p>
+                                    <p>08173543327</p>
                                 </div>
                                 <div class="row second-row d-flex flex-row">
                                     <div class="ml-3 mr-2"><img src="/assets/img/phone-call.png"></div>
-                                    <p>nusaagen1@gmail.com</p>
+                                    <p>suksesselalu12@gmail.com</p>
                                 </div>
                                 <hr>
                             </div>
                         </div>
 
                         <div class="card-agen ">
-                            <h5 class="mt-4 mb-3">Agen Travel 2</h5>
+                            <h5 class="mt-4 mb-3">Jaya Abadi</h5>
                             <div class="agen-content">
                                 <div class="row d-flex flex-row">
                                     <div class="ml-3 mr-2"><img src="/assets/img/comment.png"></div>
-                                    <p>08123456789</p>
+                                    <p>08181037493</p>
                                 </div>
                                 <div class="row second-row d-flex flex-row">
                                     <div class="ml-3 mr-2"><img src="/assets/img/phone-call.png"></div>
-                                    <p>nusaagen1@gmail.com</p>
+                                    <p>jayaabadi@gmail.com</p>
                                 </div>
                                 <hr>
                             </div>
                         </div>
 
                         <div class="card-agen ">
-                            <h5 class="mt-4 mb-3">Agen Travel 3</h5>
+                            <h5 class="mt-4 mb-3">Travel Sejahtera</h5>
                             <div class="agen-content">
                                 <div class="row d-flex flex-row">
                                     <div class="ml-3 mr-2"><img src="/assets/img/comment.png"></div>
-                                    <p>08123456789</p>
+                                    <p>08482956381</p>
                                 </div>
                                 <div class="row second-row d-flex flex-row">
                                     <div class="ml-3 mr-2"><img src="/assets/img/phone-call.png"></div>
-                                    <p>nusaagen1@gmail.com</p>
+                                    <p>tsejahtera@gmail.com</p>
                                 </div>
                                 <hr>
                             </div>
                         </div>
 
                         <div class="card-agen ">
-                            <h5 class="mt-4 mb-3">Agen Travel 4</h5>
+                            <h5 class="mt-4 mb-3">Barokah</h5>
                             <div class="agen-content">
                                 <div class="row d-flex flex-row">
                                     <div class="ml-3 mr-2"><img src="/assets/img/comment.png"></div>
-                                    <p>08123456789</p>
+                                    <p>08289247173</p>
                                 </div>
                                 <div class="row second-row d-flex flex-row">
                                     <div class="ml-3 mr-2"><img src="/assets/img/phone-call.png"></div>
-                                    <p>nusaagen1@gmail.com</p>
+                                    <p>barokah938@gmail.com</p>
                                 </div>
                             </div>
                         </div>
@@ -539,60 +549,60 @@
                         </div>
                         <div class="modal-body">
                             <div class="card-agen ">
-                                <h5 class="mb-3">Agen Travel 1</h5>
+                                <h5 class="mb-3">Sukses Selalu</h5>
                                 <div class="agen-content">
                                     <div class="row d-flex flex-row">
                                         <div class="ml-3 mr-2"><img src="/assets/img/comment.png"></div>
-                                        <p>08123456789</p>
+                                        <p>08173543327</p>
                                     </div>
                                     <div class="row second-row d-flex flex-row">
                                         <div class="ml-3 mr-2"><img src="/assets/img/phone-call.png"></div>
-                                        <p>nusaagen1@gmail.com</p>
+                                        <p>suksesselalu12@gmail.com</p>
                                     </div>
                                     <hr>
                                 </div>
                             </div>
 
                             <div class="card-agen ">
-                                <h5 class="mt-4 mb-3">Agen Travel 2</h5>
+                                <h5 class="mt-4 mb-3">Jaya Abadi</h5>
                                 <div class="agen-content">
                                     <div class="row d-flex flex-row">
                                         <div class="ml-3 mr-2"><img src="/assets/img/comment.png"></div>
-                                        <p>08123456789</p>
+                                        <p>08181037493</p>
                                     </div>
                                     <div class="row second-row d-flex flex-row">
                                         <div class="ml-3 mr-2"><img src="/assets/img/phone-call.png"></div>
-                                        <p>nusaagen1@gmail.com</p>
+                                        <p>jayaabadi@gmail.com</p>
                                     </div>
                                     <hr>
                                 </div>
                             </div>
 
                             <div class="card-agen ">
-                                <h5 class="mt-4 mb-3">Agen Travel 3</h5>
+                                <h5 class="mt-4 mb-3">Travel Sejahtera</h5>
                                 <div class="agen-content">
                                     <div class="row d-flex flex-row">
                                         <div class="ml-3 mr-2"><img src="/assets/img/comment.png"></div>
-                                        <p>08123456789</p>
+                                        <p>08482956381</p>
                                     </div>
                                     <div class="row second-row d-flex flex-row">
                                         <div class="ml-3 mr-2"><img src="/assets/img/phone-call.png"></div>
-                                        <p>nusaagen1@gmail.com</p>
+                                        <p>tsejahtera@gmail.com</p>
                                     </div>
                                     <hr>
                                 </div>
                             </div>
 
                             <div class="card-agen ">
-                                <h5 class="mt-4 mb-3">Agen Travel 4</h5>
+                                <h5 class="mt-4 mb-3">Barokah</h5>
                                 <div class="agen-content">
                                     <div class="row d-flex flex-row">
                                         <div class="ml-3 mr-2"><img src="/assets/img/comment.png"></div>
-                                        <p>08123456789</p>
+                                        <p>08289247173</p>
                                     </div>
                                     <div class="row second-row d-flex flex-row">
                                         <div class="ml-3 mr-2"><img src="/assets/img/phone-call.png"></div>
-                                        <p>nusaagen1@gmail.com</p>
+                                        <p>barokah938@gmail.com</p>
                                     </div>
                                 </div>
                             </div>
