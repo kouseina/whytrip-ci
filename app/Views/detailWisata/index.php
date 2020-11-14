@@ -90,7 +90,15 @@ if ($err) {
                                 <?php if ($dataWisata["streetview"] != null) : ?>
                                     <iframe src="<?= $dataWisata["streetview"]; ?>" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
                                 <?php else : ?>
-                                    <h1>Maaf tidak tersedia</h1>
+                                    <div class="notfound">
+                                        <div class="ilus-not text-center">
+                                            <img src="/assets/img/ilus-notfound.png">
+                                        </div>
+
+                                        <div class="not-content text-center">
+                                            <p>Maaf fitur 360° tidak tersedia di wisata <?= $dataWisata['nama']; ?></p>
+                                        </div>
+                                    </div>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -137,62 +145,66 @@ if ($err) {
                     <hr>
                 </div>
 
-                <div class="cuaca">
-                    <h3 class="judul">Cuaca</h3>
-                    <div class="weather d-flex justify-content-between">
-                        <div>
-                            <table class="table table-borderless table-condensed">
-                                <tr>
-                                    <td><?= $dataWisata["nama"]; ?></td>
-                                </tr>
-                                <tr>
-                                    <td><?= date("l, H:i", $forecast[0]->dt); ?></td>
-                                </tr>
-                                <tr>
-                                    <td class="font-weight-bold"><?= $forecast[0]->weather[0]->main; ?></td>
-                                </tr>
-                            </table>
+                <?php if ($arrWeather != null) : ?>
+
+                    <div class="cuaca">
+                        <h3 class="judul">Cuaca</h3>
+                        <div class="weather d-flex justify-content-between">
+                            <div>
+                                <table class="table table-borderless table-condensed">
+                                    <tr>
+                                        <td><?= $dataWisata["nama"]; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><?= date("l, H:i", $forecast[0]->dt); ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-weight-bold"><?= $forecast[0]->weather[0]->main; ?></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div>
+                                <img src="http://openweathermap.org/img/wn/<?= $forecast[0]->weather[0]->icon; ?>@4x.png" alt="">
+                            </div>
+                            <div>
+                                <table class="table table-borderless table-condensed">
+                                    <tr>
+                                        <td>Pressure</td>
+                                        <td>: <span class="font-weight-bold"><?= $forecast[0]->pressure; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Humidity</td>
+                                        <td>: <span class="font-weight-bold"><?= $forecast[0]->humidity; ?> %</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Speed</td>
+                                        <td>: <span class="font-weight-bold"><?= $forecast[0]->speed; ?></td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
-                        <div>
-                            <img src="http://openweathermap.org/img/wn/<?= $forecast[0]->weather[0]->icon; ?>@4x.png" alt="">
+
+                        <div class="cloudy d-flex justify-content-between">
+
+                            <?php foreach ($forecast as $keyForcast => $dataForcast) : ?>
+
+                                <?php if ($keyForcast < 7 & $keyForcast != 0) : ?>
+
+                                    <div>
+                                        <p><?= date("D", $dataForcast->dt); ?></p>
+                                        <img src="http://openweathermap.org/img/wn/<?= $dataForcast->weather[0]->icon; ?>@2x.png" alt="">
+                                        <p><span class="font-weight-bold"><?= round($dataForcast->temp->max - 273.15, 0); ?>°</span> <?= round($dataForcast->temp->min - 273.15, 0); ?>°</p>
+                                    </div>
+
+                                <?php endif ?>
+
+                            <?php endforeach; ?>
+
                         </div>
-                        <div>
-                            <table class="table table-borderless table-condensed">
-                                <tr>
-                                    <td>Pressure</td>
-                                    <td>: <span class="font-weight-bold"><?= $forecast[0]->pressure; ?></td>
-                                </tr>
-                                <tr>
-                                    <td>Humidity</td>
-                                    <td>: <span class="font-weight-bold"><?= $forecast[0]->humidity; ?> %</td>
-                                </tr>
-                                <tr>
-                                    <td>Speed</td>
-                                    <td>: <span class="font-weight-bold"><?= $forecast[0]->speed; ?></td>
-                                </tr>
-                            </table>
-                        </div>
+                        <hr>
                     </div>
-
-                    <div class="cloudy d-flex justify-content-between">
-
-                        <?php foreach ($forecast as $keyForcast => $dataForcast) : ?>
-
-                            <?php if ($keyForcast < 7 & $keyForcast != 0) : ?>
-
-                                <div>
-                                    <p><?= date("D", $dataForcast->dt); ?></p>
-                                    <img src="http://openweathermap.org/img/wn/<?= $dataForcast->weather[0]->icon; ?>@2x.png" alt="">
-                                    <p><span class="font-weight-bold"><?= round($dataForcast->temp->max - 273.15, 0); ?>°</span> <?= round($dataForcast->temp->min - 273.15, 0); ?>°</p>
-                                </div>
-
-                            <?php endif ?>
-
-                        <?php endforeach; ?>
-
-                    </div>
-                    <hr>
-                </div>
+                
+                <?php endif; ?>
 
                 <div class="tips">
                     <h3 class="judul">Hal Yang Harus Anda Bawa</h3.judul>
